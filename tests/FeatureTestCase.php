@@ -20,7 +20,7 @@ class FeatureTestCase extends TestCase
                 $this->seeInElement(
                     "#field_{$name}.has-error .help-block",
                     $message);
-            };
+            }
         }
 
 
