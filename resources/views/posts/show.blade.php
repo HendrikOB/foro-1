@@ -3,9 +3,21 @@
 @section('content')
     <h1>{{ $post->title }}</h1>
 
-    <p>{{ $post->content }}</p>
+    {!! $post->safe_html_content !!}
 
     <p>{{ $post->user->name }}</p>
+
+    @if (auth()->check())
+        @if (!auth()->user()->isSubscribedTo($post))
+            {!! Form::open(['route' => ['posts.subscribe', $post], 'method' => 'POST']) !!}
+                <button type="submit">Suscribirse al post</button>
+            {!! Form::close() !!}
+        @else
+            {!! Form::open(['route' => ['posts.unsubscribe', $post], 'method' => 'DELETE']) !!}
+                <button type="submit">Desuscribirse del post</button>
+            {!! Form::close() !!}
+        @endif
+    @endif
 
     <h4>Comentarios</h4>
 
@@ -24,10 +36,15 @@
 
             {{ $comment->author->name }}
 
-            {{ $comment->comment }}
+            {{-- todo: support markdown in the comments as well! --}}
+
+            {!! $comment->safe_content !!}
+
+            @if(Gate::allows('accept', $comment) && !$comment->answer)
             {!! Form::open(['route' => ['comments.accept', $comment], 'method' => 'POST']) !!}
-            <button type="submit">Aceptar respuesta</button>
+                <button type="submit">Aceptar respuesta</button>
             {!! Form::close() !!}
+            @endif
         </article>
     @endforeach
 
