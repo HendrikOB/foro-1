@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'username', 'email', 'first_name', 'last_name',
     ];
 
     /**
@@ -68,7 +68,7 @@ class User extends Authenticatable
         // Notify subscribers
         Notification::send(
             $post->subscribers()->where('users.id', '!=', $this->id)->get(),
-            new PostCommented($this, $comment));
+            new PostCommented($comment));
 
         return $comment;
     }

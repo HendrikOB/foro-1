@@ -1,12 +1,9 @@
 <?php
 
 use App\Comment;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class SupportMarkdownTest extends TestCase
+class SupportMarkdownTest extends FeatureTestCase
 {
-    use DatabaseTransactions;
-
     function test_the_post_content_support_markdown()
     {
         $importantText = 'Un texto muy importante';

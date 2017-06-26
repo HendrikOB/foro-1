@@ -5,10 +5,8 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ShowCommentTest extends TestCase
+class ShowCommentTest extends FeatureTestCase
 {
-    use DatabaseTransactions;
-
     public function test_the_comments_are_displayed_and_paginated()
     {
         $post = $this->createPost([

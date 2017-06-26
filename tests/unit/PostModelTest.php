@@ -1,9 +1,12 @@
 <?php
 
 use App\Post;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PostModelTest extends TestCase
 {
+    use DatabaseTransactions;
+
     function test_adding_a_title_generates_a_slug()
     {
         $post = new Post([
