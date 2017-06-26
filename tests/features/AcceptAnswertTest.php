@@ -6,7 +6,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AcceptAnswertTest extends FeatureTestCase
 {
-    use DatabaseTransactions;
 
     public function test_the_posts_author_can_accept_a_comment_as_the_posts_answer()
     {
