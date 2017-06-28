@@ -10,10 +10,15 @@ Route::post('register', [
 ]);
 
 Route::get('login', [
-    'uses' => 'LoginController@create',
-    'as' => 'login'
+    'uses' => 'TokenController@create',
+    'as' => 'token'
 ]);
 
 Route::post('login', [
-    'uses' => 'LoginController@store',
+    'uses' => 'TokenController@store',
+]);
+
+Route::get('login/{token}', [
+    'uses' => 'LoginController@login',
+    'as' => 'login'
 ]);
