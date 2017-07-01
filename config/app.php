@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://foro.app'),
 
     /*
     |--------------------------------------------------------------------------
@@ -169,6 +169,7 @@ return [
 
         Styde\Html\HtmlServiceProvider::class,
 	    GrahamCampbell\Markdown\MarkdownServiceProvider::class,
+        Laravel\Tinker\TinkerServiceProvider::class,
 
         /*
          * Application Service Providers...
