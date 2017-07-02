@@ -7,12 +7,18 @@ class CreatePostsTest extends FeatureTestCase
         // Having
         $title = 'Esta es una pregunta';
         $content = 'Este es el contenido';
+
         $this->actingAs($user = $this->defaultUser());
+
+        $category = factory(\App\Category::class)->create();
+
         // When
         $this->visit(route('posts.create'))
             ->type($title, 'title')
             ->type($content, 'content')
+            ->select($category->id, 'category_id')
             ->press('Publicar');
+
         // Then
         $this->seeInDatabase('posts', [
             'title' => $title,
@@ -20,6 +26,7 @@ class CreatePostsTest extends FeatureTestCase
             'pending' => true,
             'user_id' => $user->id,
             'slug' => 'esta-es-una-pregunta',
+            'category_id' => $category->id,
         ]);
         $post = Post::first();
         // Test the author is suscribed automatically to the post.

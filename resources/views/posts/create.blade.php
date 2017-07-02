@@ -13,6 +13,7 @@
 
                             {!! Field::textarea('content') !!}
 
+                            {!! Field::select('category_id', $categories) !!}
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
