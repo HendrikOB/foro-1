@@ -24,7 +24,5 @@ class FeatureTestCase extends \Laravel\BrowserKitTesting\TestCase
                     $message);
             }
         }
-
-
     }
 }
