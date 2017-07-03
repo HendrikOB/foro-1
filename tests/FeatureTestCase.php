@@ -13,7 +13,7 @@ use Tests\TestsHelper;
 
 class FeatureTestCase extends \Laravel\BrowserKitTesting\TestCase
 {
-    use CreatesApplication, TestsHelper,DatabaseTransactions;
+    use CreatesApplication, TestsHelper, DatabaseTransactions;
 
     public function seeErrors(array $fields)
     {

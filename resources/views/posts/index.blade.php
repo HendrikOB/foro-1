@@ -2,7 +2,9 @@
 
 @section('content')
 
-    <h1>Posts</h1>
+    <h1>
+        {{ $category->exists ? 'Posts de '.$category->name : 'Posts' }}
+    </h1>
 
     <ul>
         @foreach($posts as $post)
@@ -15,5 +17,7 @@
     </ul>
 
     {{ $posts->render() }}
+
+    {!! Menu::make($categoryItems, 'nav categories') !!}
 
 @endsection
