@@ -24,7 +24,7 @@ class CreatePostsTable extends Migration
             $table->mediumText('content');
 
             $table->boolean('pending')->default(true);
-            $table->boolean('answer_id')->nullable();
+            $table->unsignedInteger('answer_id')->nullable();
 
             $table->timestamps();
         });
