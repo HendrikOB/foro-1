@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 class PostsListTest extends FeatureTestCase
 {
-   function test_a_user_can_See_the_posts_list_and_go_to_the_details()
+   function test_a_user_can_see_the_posts_list_and_go_to_the_details()
     {
         $post = $this->createPost([
             'title' => '¿Debo usar Laravel 5.3 o 5.1 LTS?'
@@ -28,7 +28,7 @@ class PostsListTest extends FeatureTestCase
             'name' => 'Vue.js', 'slug' => 'vue-js'
         ]);
         $laravelPost = factory(Post::class)->create([
-            'title' => 'Posts de Laravel',
+            'title' => 'Post de Laravel',
             'category_id' => $laravel->id
         ]);
         $vuePost = factory(Post::class)->create([
@@ -46,6 +46,27 @@ class PostsListTest extends FeatureTestCase
             ->dontSee($vuePost->title);
     }
 
+    function test_a_user_can_see_posts_filtered_by_status()
+    {
+        $pendingPost =  factory(Post::class)->create([
+            'title' => 'Post pendiente',
+            'pending' => true,
+        ]);
+
+        $completedPost = factory(Post::class)->create([
+            'title' => 'Post completado',
+            'pending' => false,
+        ]);
+
+        $this->visitRoute('posts.pending')
+            ->see($pendingPost->title)
+            ->dontsee($completedPost->title);
+
+        $this->visitRoute('posts.completed')
+            ->see($completedPost->title)
+            ->dontSee($pendingPost->title);
+
+    }
 
     function test_the_posts_are_paginated()
     {
