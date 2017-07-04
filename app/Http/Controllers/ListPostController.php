@@ -2,26 +2,26 @@
 namespace App\Http\Controllers;
 use App\{Post, Category};
 use Illuminate\Http\Request;
-class PostController extends Controller
+
+class ListPostController extends Controller
 {
-    public function index(Category $category = null, Request $request)
+    public function __invoke(Category $category = null, Request $request)
     {
         $routeName = $request->route()->getName();
+
+        list($orderColumn, $orderDirection) = $this->getListOrder($request->get('orden')); //recientes, antiguos...
+
         $posts = Post::query()
             ->scopes($this->getListScopes($category, $routeName))
-            ->latest()
+            ->orderBy($orderColumn, $orderDirection)
             ->paginate();
+        $posts->appends(request()->intersect(['orden']));
+
         $categoryItems = $this->getCategoryItems($routeName);
+
         return view('posts.index', compact('posts', 'category', 'categoryItems'));
     }
 
-    public function show(Post $post, $slug)
-    {
-        if ($post->slug != $slug) {
-            return redirect($post->url, 301);
-        }
-        return view('posts.show', compact('post'));
-    }
     protected function getCategoryItems(string $routeName)
     {
         return Category::query()
@@ -48,5 +48,18 @@ class PostController extends Controller
             $scopes[] = 'completed';
         }
         return $scopes;
+    }
+
+    protected function getListOrder($order)
+    {
+        if ($order == 'recientes') {
+            return ['created_at', 'desc'];
+        }
+
+        if ($order == 'antiguos'){
+            return ['created_at', 'asc'];
+        }
+
+        return['created_at', 'desc'];
     }
 }
