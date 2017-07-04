@@ -1,18 +1,14 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| This file is where you may define all of the routes that are handled
+| by your application. Just tell Laravel the URIs it should respond
+| to using a Closure or controller method. Build something great!
 |
 */
-
-
-
 Route::get('/home', 'HomeController@index');
 
 Route::get('posts/{post}-{slug}', [
@@ -22,15 +18,13 @@ Route::get('posts/{post}-{slug}', [
 
 Route::get('posts-pendientes/{category?}', [
     'uses' => 'PostController@index',
-    'as'   => 'posts.pending'
+    'as' => 'posts.pending'
 ]);
-
 Route::get('posts-completados/{category?}', [
     'uses' => 'PostController@index',
-    'as'   => 'posts.completed'
+    'as' => 'posts.completed'
 ]);
-
 Route::get('{category?}', [
     'uses' => 'PostController@index',
-    'as'   => 'posts.index'
+    'as' => 'posts.index'
 ]);
