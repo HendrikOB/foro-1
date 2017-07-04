@@ -1,5 +1,6 @@
 <?php
 
+use App\Post;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PostIntegrationTest extends TestCase
@@ -25,7 +26,9 @@ class PostIntegrationTest extends TestCase
 
     function test_the_url_of_the_post_is_generated()
     {
-        $post = $this->createPost();
+        $user = $this->defaultUser();
+        $post = factory(Post::class)->make();
+        $user->posts()->save($post);
 
         $this->assertSame(
             $post->url,
