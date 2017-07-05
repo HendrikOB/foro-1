@@ -26,15 +26,7 @@
 
             <h4>Comentarios</h4>
 
-            {!! Form::open(['route' => ['comments.store', $post], 'method' => 'POST']) !!}
-
-                {!! Field::textarea('comment') !!}
-
-                <button type="submit">
-                    Publicar comentario
-                </button>
-
-            {!! Form::close() !!}
+            <hr>
 
             @foreach($post->latestComments() as $comment)
                 <article class="{{ $comment->answer ? 'answer' : '' }}">
@@ -66,6 +58,16 @@
             @endif
 
             {{ $post->latestComments()->render() }}
+
+            {!! Form::open(['route' => ['comments.store', $post], 'method' => 'POST']) !!}
+
+            {!! Field::textarea('comment') !!}
+
+            <button type="submit">
+                Publicar comentario
+            </button>
+
+            {!! Form::close() !!}
         </div>
         @include('posts.sidebar')
     </div>
