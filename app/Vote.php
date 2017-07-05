@@ -37,7 +37,7 @@ class Vote extends Model
 
         static::refreshPostScore($post);
     }
-    
+
     protected static function refreshPostScore(Post $post)
     {
         $post->score = static::where(['post_id' => $post->id])->sum('vote');

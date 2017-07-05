@@ -11,6 +11,10 @@ Route::post('posts/create', [
     'as' => 'posts.store'
 ]);
 
+Route::post('posts/{post}-{slug}/vote', [
+    'uses' => 'VotePostController@upvote'
+])->where('post', '\d+');
+
 Route::post('posts/{post}/comment', [
     'uses' => 'CommentController@store',
     'as' => 'comments.store'
