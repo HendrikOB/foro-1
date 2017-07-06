@@ -11,10 +11,20 @@ Route::post('posts/create', [
     'as' => 'posts.store'
 ]);
 
-Route::post('posts/{post}-{slug}/vote', [
+//Votes
+Route::post('posts/{post}-{slug}/upvote', [
     'uses' => 'VotePostController@upvote'
 ])->where('post', '\d+');
 
+Route::post('posts/{post}-{slug}/downvote', [
+    'uses' => 'VotePostController@downvote'
+])->where('post', '\d+');
+
+Route::delete('posts/{post}-{slug}/vote', [
+    'uses' => 'VotePostController@undovote'
+])->where('post', '\d+');
+
+//Comments
 Route::post('posts/{post}/comment', [
     'uses' => 'CommentController@store',
     'as' => 'comments.store'
