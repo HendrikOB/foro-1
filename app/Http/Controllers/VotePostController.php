@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Post;
+use App\{Post, Vote};
 
 class VotePostController extends Controller
 {

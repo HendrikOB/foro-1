@@ -20,13 +20,29 @@
                 @endif
             </p>
 
+            <h4>{{ $post->score }}</h4>
+
+            <app-vote score="{{ $post->score }}"></app-vote>
+
             {!! $post->safe_html_content !!}
 
-            <p>{{ $post->user->name }}</p>
+            @if (auth()->check())
+                @if (!auth()->user()->isSubscribedTo($post))
+                    {!! Form::open(['route' => ['posts.subscribe', $post], 'method' => 'POST']) !!}
+                    <button class="btn btn-default" type="submit">Suscribirse al post</button>
+                    {!! Form::close() !!}
+                @else
+                    {!! Form::open(['route' => ['posts.unsubscribe', $post], 'method' => 'DELETE']) !!}
+                    <button class="btn btn-default" type="submit">Desuscribirse del post</button>
+                    {!! Form::close() !!}
+                @endif
+            @endif
 
             <h4>Comentarios</h4>
 
             <hr>
+
+            {{-- todo: Paginate comments! --}}
 
             @foreach($post->latestComments() as $comment)
                 <article class="{{ $comment->answer ? 'answer' : '' }}">
@@ -45,17 +61,6 @@
                 </article>
             @endforeach
 
-            @if (auth()->check())
-                @if (!auth()->user()->isSubscribedTo($post))
-                    {!! Form::open(['route' => ['posts.subscribe', $post], 'method' => 'POST']) !!}
-                    <button type="submit">Suscribirse al post</button>
-                    {!! Form::close() !!}
-                @else
-                    {!! Form::open(['route' => ['posts.unsubscribe', $post], 'method' => 'DELETE']) !!}
-                    <button type="submit">Desuscribirse del post</button>
-                    {!! Form::close() !!}
-                @endif
-            @endif
 
             {{ $post->latestComments()->render() }}
 
