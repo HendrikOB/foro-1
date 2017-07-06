@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Post;
-use App\Vote;
-use Illuminate\Http\Request;
 
 class VotePostController extends Controller
 {
     public function upvote(Post $post)
     {
-        Vote::upvote($post);
+        $post->upvote();
 
         return [
             'new_score' => $post->score
@@ -20,7 +18,7 @@ class VotePostController extends Controller
 
     public function downvote(Post $post)
     {
-        Vote::downvote($post);
+        $post->downvote();
 
         return [
             'new_score' => $post->score
@@ -30,7 +28,7 @@ class VotePostController extends Controller
 
     public function undoVote(Post $post)
     {
-        Vote::undoVote($post);
+        $post->undoVote();
 
         return [
             'new_score' => $post->score
