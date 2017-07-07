@@ -20,9 +20,7 @@
                 @endif
             </p>
 
-            <h4>{{ $post->score }}</h4>
-
-            <app-vote score="{{ $post->score }}"></app-vote>
+            <app-vote score="{{ $post->score }}" vote="{{ $post->current_vote }}"></app-vote>
 
             {!! $post->safe_html_content !!}
 

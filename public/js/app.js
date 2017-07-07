@@ -41642,12 +41642,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['score'],
+    props: ['score', 'vote'],
+    data: function data() {
+        return {
+            currentVote: this.vote,
+            currentScore: this.score
+        };
+    },
+
     methods: {
         upvote: function upvote() {
-            axios.post(window.location.href + '/upvote');
+            if (this.currentVote == 1) {
+                this.currentScore--;
+
+                axios.delete(window.location.href + '/vote');
+
+                this.currentVote = null;
+            } else {
+                this.currentScore++;
+
+                axios.post(window.location.href + '/upvote');
+
+                this.currentVote = 1;
+            }
         }
     }
 });
@@ -41659,6 +41679,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('form', [_c('button', {
     staticClass: "btn btn-default",
+    class: _vm.currentVote == 1 ? 'btn-primary' : 'btn-default',
     on: {
       "click": function($event) {
         $event.preventDefault();
@@ -41669,7 +41690,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "current-score"
     }
-  }, [_vm._v(_vm._s(_vm.score))]), _vm._v(" "), _c('button', {
+  }, [_vm._v(_vm._s(_vm.currentScore))]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-default",
     on: {
       "click": function($event) {
