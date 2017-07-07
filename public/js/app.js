@@ -41643,30 +41643,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['score', 'vote'],
     data: function data() {
         return {
-            currentVote: this.vote,
-            currentScore: this.score
+            currentVote: this.vote ? parseInt(this.vote) : null,
+            currentScore: parseInt(this.score)
         };
     },
 
     methods: {
         upvote: function upvote() {
-            if (this.currentVote == 1) {
-                this.currentScore--;
-
+            this.addVote(1);
+        },
+        downvote: function downvote() {
+            this.addVote(-1);
+        },
+        addVote: function addVote(amount) {
+            if (this.currentVote == amount) {
+                this.currentScore -= this.currentVote;
                 axios.delete(window.location.href + '/vote');
-
                 this.currentVote = null;
             } else {
-                this.currentScore++;
-
-                axios.post(window.location.href + '/upvote');
-
-                this.currentVote = 1;
+                this.currentScore += this.currentVote ? amount * 2 : amount;
+                axios.post(window.location.href + (amount == 1 ? '/upvote' : '/downvote'));
+                this.currentVote = amount;
             }
         }
     }
@@ -41678,7 +41681,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('form', [_c('button', {
-    staticClass: "btn btn-default",
+    staticClass: "btn",
     class: _vm.currentVote == 1 ? 'btn-primary' : 'btn-default',
     on: {
       "click": function($event) {
@@ -41692,6 +41695,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v(_vm._s(_vm.currentScore))]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-default",
+    class: _vm.currentVote == -1 ? 'btn-primary' : 'btn-default',
     on: {
       "click": function($event) {
         $event.preventDefault();

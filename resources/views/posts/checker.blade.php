@@ -27,18 +27,18 @@
             @if (auth()->check())
                 @if (!auth()->user()->isSubscribedTo($post))
                     {!! Form::open(['route' => ['posts.subscribe', $post], 'method' => 'POST']) !!}
-                    <button type="submit" class="btn btn-primary">Suscribirse al post</button>
+                    <button class="btn btn-default" type="submit">Suscribirse al post</button>
                     {!! Form::close() !!}
                 @else
                     {!! Form::open(['route' => ['posts.unsubscribe', $post], 'method' => 'DELETE']) !!}
-                    <button type="submit" class="btn btn-default">Desuscribirse del post</button>
+                    <button class="btn btn-default" type="submit">Desuscribirse del post</button>
                     {!! Form::close() !!}
                 @endif
             @endif
 
-            <hr>
-
             <h4>Comentarios</h4>
+
+            <hr>
 
             {{-- todo: Paginate comments! --}}
 
@@ -53,27 +53,25 @@
 
                     @if(Gate::allows('accept', $comment) && !$comment->answer)
                         {!! Form::open(['route' => ['comments.accept', $comment], 'method' => 'POST']) !!}
-                        <button type="submit" class="btn btn-default">Aceptar respuesta</button>
+                        <button type="submit">Aceptar respuesta</button>
                         {!! Form::close() !!}
                     @endif
                 </article>
             @endforeach
 
-            <hr>
 
             {{ $post->latestComments()->render() }}
 
-            {!! Form::open(['route' => ['comments.store', $post], 'method' => 'POST', 'class' => 'form']) !!}
+            {!! Form::open(['route' => ['comments.store', $post], 'method' => 'POST']) !!}
 
-            {!! Field::textarea('comment', ['class' => 'form-control', 'rows' => 6, 'label' => 'Escribe un comentario']) !!}
+            {!! Field::textarea('comment') !!}
 
-            <button type="submit" class="btn btn-primary">
+            <button type="submit">
                 Publicar comentario
             </button>
 
             {!! Form::close() !!}
         </div>
-
         @include('posts.sidebar')
     </div>
 @endsection
