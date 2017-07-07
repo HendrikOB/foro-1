@@ -41648,7 +41648,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['score', 'vote'],
+    props: ['score', 'vote', 'post_id'],
     data: function data() {
         return {
             currentVote: this.vote ? parseInt(this.vote) : null,
@@ -41691,7 +41691,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         buildUrl: function buildUrl(action) {
-            return window.location.href + '/' + action;
+            return '/posts/' + this.post_id + '/' + action;
         }
     }
 });

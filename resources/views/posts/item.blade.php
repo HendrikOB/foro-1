@@ -10,6 +10,9 @@
         @else
             <span class="label label-success">Completado</span>
         @endif
+
+        {!! $post->vote_component !!}
+
     </p>
 
     <hr>
