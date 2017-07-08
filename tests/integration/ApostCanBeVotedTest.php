@@ -84,8 +84,7 @@ class ApostCanBeVotedTest extends TestCase
 
     function test_the_post_score_is_calculated_correctly()
     {
-        Vote::create([
-            'post_id' => $this->post->id,
+        $this->post->votes()->create([
             'user_id' => $this->anyone()->id,
             'vote' => 1,
         ]);
@@ -99,15 +98,15 @@ class ApostCanBeVotedTest extends TestCase
 
     function test_a_post_can_be_unvoted()
     {
+        $this->assertNull($this->post->current_vote);
+
         $this->post->upvote();
+
+        $this->assertSame(1, $this->post->current_vote);
 
         $this->post->undoVote();
 
-        $this->assertDatabaseMissing('votes', [
-            'post_id' => $this->post->id,
-            'user_id' => $this->user->id,
-            'vote' => 1,
-        ]);
+        $this->assertNull($this->post->current_vote);
 
         $this->assertSame(0, $this->post->score);
     }

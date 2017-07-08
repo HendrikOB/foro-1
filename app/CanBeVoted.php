@@ -10,7 +10,7 @@ trait CanBeVoted
 {
     public function votes()
     {
-        return $this->hasMany(Vote::class);
+        return $this->morphMany(Vote::class, 'votable');
     }
 
     public function getCurrentVoteAttribute()
@@ -48,8 +48,8 @@ trait CanBeVoted
 
     protected function addVote($amount)
     {
-        Vote::updateOrCreate(
-            ['post_id' => $this->id, 'user_id' => auth()->id()],
+        $this->votes()->updateOrCreate(
+            ['user_id' => auth()->id()],
             ['vote' => $amount]
         );
 
