@@ -2,8 +2,6 @@
 
 namespace App;
 
-use Collective\Html\HtmlFacade;
-
 use Collective\Html\HtmlFacade as Html;
 
 trait CanBeVoted
@@ -13,11 +11,25 @@ trait CanBeVoted
         return $this->morphMany(Vote::class, 'votable');
     }
 
+    public function userVote()
+    {
+        return $this->morphOne(Vote::class, 'votable')
+            ->where('user_id', auth()->id())
+            ->withDefault();
+    }
+
     public function getCurrentVoteAttribute()
     {
         if (auth()->check()) {
-            return $this->getVoteFrom(auth()->user());
+            return $this->userVote->vote;
         }
+    }
+
+    public function getVoteFrom(User $user)
+    {
+        return $this->votes
+            ->where('user_id', $user->id)
+            ->value('vote');
     }
 
     public function getVoteComponentAttribute()
@@ -32,12 +44,6 @@ trait CanBeVoted
         }
     }
 
-    public function getVoteFrom(User $user)
-    {
-        return $this->votes()
-            ->where('user_id', $user->id)
-            ->value('vote');
-    }
 
     public function upvote()
     {

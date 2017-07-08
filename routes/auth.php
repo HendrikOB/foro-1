@@ -1,5 +1,12 @@
 <?php
 
+// Routes that require authentication.
+Route::post('logout', function() {
+    auth()->logout();
+
+    return redirect('/');
+});
+
 // POSTS
 Route::get('posts/create', [
     'uses' => 'CreatePostController@create',
